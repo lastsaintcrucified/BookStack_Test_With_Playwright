@@ -7,6 +7,12 @@ class POManager {
     this.createBookPage = new CreateBookPage(page);
     this.loginPage = new LoginPage(page);
   }
+  getLoginPage() {
+    return this.loginPage;
+  }
+  getCreateBookPage() {
+    return this.createBookPage;
+  }
 }
 
 export default POManager;

@@ -1,10 +1,17 @@
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class CreateBookPage {
   constructor(page) {
     this.page = page;
-    this.navigateToBookPage = page.getByRole("link", { name: "Books" });
-    this.navigateToCreateBookPage = page.getByText("Create New Book", {
+    this.navigateToBookButton = page
+      .locator("div.links.text-center")
+      .locator("a")
+      .nth(2);
+    this.navigateToCreateBookButton = page.getByText("Create New Book", {
       exact: true,
     });
     this.heading = page.getByRole("heading", { name: "Create New Book" });
@@ -13,22 +20,25 @@ class CreateBookPage {
       "//div[contains(@class,'editor-content-area')]//p",
     );
     this.coverImageInput = page.getByText("Cover image");
+    this.coverImageUploadButton = page.locator(
+      "input[type='file'][id='image']",
+    );
     this.saveButton = page.getByRole("button", { name: "Save Book" });
   }
 
   async navigateToBookPage() {
-    await this.navigateToBookPage.click();
+    await this.navigateToBookButton.click();
     await this.page.waitForLoadState("networkidle");
   }
 
   async navigateToCreateBookPage() {
-    await this.navigateToCreateBookPage.click();
+    await this.navigateToCreateBookButton.click();
     await this.page.waitForLoadState("networkidle");
   }
 
   async coverImageUpload() {
     const filePath = path.join(__dirname, "assets", "Capture.PNG");
-    await this.coverImageInput.setInputFiles(filePath);
+    await this.coverImageUploadButton.setInputFiles(filePath);
     await this.page.waitForLoadState("networkidle");
   }
 

@@ -16,7 +16,10 @@ test("Create Book Test @createBookTest", async ({ page }) => {
   await expect(createBookPage.heading.isVisible()).toBeTruthy();
   await createBookPage.createBook(testData.NAME, testData.DESCRIPTION);
   await expect(
-    createBookPage.page.getByText(testData.NAME).isVisible(),
+    createBookPage.page
+      .locator("h1")
+      .filter({ hasText: testData.NAME })
+      .isVisible(),
   ).toBeTruthy();
   await expect(
     createBookPage.page.getByText(testData.DESCRIPTION).isVisible(),
